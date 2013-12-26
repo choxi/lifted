@@ -8,9 +8,15 @@
 
 user = User.first
 user.logs.destroy_all
-exercise = Exercise.find_by_name("Squat")
+squat     = Exercise.find_by_name("Squat")
+deadlift  = Exercise.find_by_name("Deadlift")
+bench     = Exercise.find_by_name("Bench Press")
+press     = Exercise.find_by_name("Press")
 
 20.times do |i|
   log = user.logs.create!(created_at: i.days.from_now)
-  log.exercise_logs.create!(weight: rand(20), exercise: exercise)
+
+  [squat, deadlift, bench, press].each do |exercise|
+    log.exercise_logs.create!(weight: rand(5)*i, exercise: exercise)
+  end
 end

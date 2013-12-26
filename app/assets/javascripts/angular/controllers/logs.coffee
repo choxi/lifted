@@ -12,29 +12,47 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
 
   $scope.refreshChart = =>
     $http.get("/api/v1/logs.json").success (response) =>
-      $scope.logs = $.map response, (log) ->
-        [[$scope.timestampToUTC(log.created_at), log.exercises[0].weight]]
-
       $scope.chartConfig =
         options:
           chart:
-            type: "spline"
+            type: "area"
+          plotOptions:
+            area:
+              stacking: 'normal'
         xAxis:
           type: 'datetime',
           dateTimeLabelFormats:
             month: '%e. %b',
             year: '%b'
 
-        series: [{name: "Squat", data: $scope.logs}]
+        series: $scope.mapLogsToDataSeries(response)
         title:
           text: "Weight"
 
   $scope.createLog = =>
     $http.post("/api/v1/logs.json", log: $scope.newLog).success (response) =>
 
-  $scope.timestampToUTC = (timestamp) ->
+  $scope.timestampToUTC = (timestamp) =>
     date = new Date(timestamp)
     Date.UTC(date.getYear(), date.getMonth(), date.getDate())
+
+  $scope.mapLogsToDataSeries = (logs) =>
+    data = {}
+
+    # map the logs to something that looks like:
+    #
+    # {
+    #   "Squats": [[<date>, <weight], [<date>, <weight>]],
+    #   "Deadlift": [[<date>, <weight]]
+    # }
+    for log in logs
+      for exercise in log.exercises
+        data[exercise.name] = [] unless data[exercise.name]?
+        data[exercise.name].push([$scope.timestampToUTC(log.created_at), exercise.weight])
+
+    debugger
+    $.map data, (data, name) ->
+      {name: name, data: data}
 
   $scope.refreshChart()
 
