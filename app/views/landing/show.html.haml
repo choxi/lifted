@@ -1,14 +1,26 @@
 - if user_signed_in?
   .landing-show{ng_controller: "LogsController"}
-    %highchart{id: "chart1", config: "chartConfig"}
-    %form{ng_submit: "createLog()"}
-      %p{ng_repeat: "exercise in newLog.exercises"}
-        %label {{ exercise.name }}
-        %input{type: "number", ng_model: "exercise.weight"}
-      %p
-        %input.btn.btn-primary{type: "submit"}
-    %p
-      %a{ng_click: "refreshChart()"} Refresh Chart
+    .row
+      %highchart{id: "chart1", config: "chartConfig"}
+    .row
+      .col-md-5
+        %form.new-log{ng_submit: "createLog()"}
+          .row{ng_repeat: "exercise in newLog.exercises"}
+            %label.col-md-4 {{ exercise.name }}
+            %input.col-md-8{type: "number", ng_model: "exercise.weight"}
+          .row
+            %input.btn.btn-primary.col-md-12{type: "submit"}
+      .col-md-7
+        %table
+          %tr
+            %th Date
+            %th Squat
+            %th Deadlift
+            %th Bench Press
+            %th Press
+          %tr{ng_repeat: "log in logs"}
+            %td {{ log.created_at | date:'MM/dd/yyyy' }}
+            %td{ng_repeat: "exercise in log.exercises"} {{ exercise.weight }}
 - else
   = link_to "Sign In", new_user_session_path
   = link_to "Sign Up", new_user_registration_path
