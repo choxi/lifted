@@ -37,6 +37,6 @@ class Api::V1::LogsController < ApiController
   #    }
   #  ]
   def index
-    respond_with current_user.logs.where("logged_at > ?", 1.month.ago)
+    respond_with current_user.logs.where("logged_at > ?", 1.month.ago).order("logged_at ASC")
   end
 end
