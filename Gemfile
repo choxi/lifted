@@ -9,6 +9,7 @@ gem "jquery-rails"
 gem "jbuilder", "~> 1.2"
 gem "haml-rails"
 gem "angularjs-rails"
+gem "ngmin-rails"
 gem "compass-rails"
 gem "devise"
 gem "rspec-rails", group: [:development, :test]
