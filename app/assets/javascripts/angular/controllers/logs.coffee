@@ -17,9 +17,6 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
         options:
           chart:
             type: "area"
-          plotOptions:
-            area:
-              stacking: 'normal'
         xAxis:
           type: 'datetime',
           dateTimeLabelFormats:
@@ -37,6 +34,13 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
   $scope.timestampToUTC = (timestamp) =>
     date = new Date(timestamp)
     Date.UTC(date.getYear(), date.getMonth(), date.getDate())
+
+  $scope.exerciseWeightFromLog = (log, exerciseName) =>
+    exercise = (log.exercises.filter (e) -> e.name == exerciseName)[0]
+    if exercise?
+      exercise.weight
+    else
+      "-"
 
   $scope.mapLogsToDataSeries = (logs) =>
     data = {}

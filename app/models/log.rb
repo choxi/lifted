@@ -5,7 +5,7 @@ class Log < ActiveRecord::Base
 
   def as_json(options)
     {
-      created_at: created_at,
+      created_at: logged_at,
       exercises: exercise_logs
     }
   end

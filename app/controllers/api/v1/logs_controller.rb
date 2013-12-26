@@ -9,7 +9,7 @@ class Api::V1::LogsController < ApiController
   #     ]
   #   }
   def create
-    log = current_user.logs.create!
+    log = current_user.logs.create!(logged_at: Time.now)
     params[:log][:exercises].each do |exercise_params|
       exercise = Exercise.find_or_create_by_name!(exercise_params[:name])
       log.exercise_logs.create!(weight: exercise_params[:weight], exercise: exercise)
@@ -37,6 +37,6 @@ class Api::V1::LogsController < ApiController
   #    }
   #  ]
   def index
-    respond_with current_user.logs
+    respond_with current_user.logs.where("logged_at > ?", 1.month.ago)
   end
 end

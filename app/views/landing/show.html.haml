@@ -18,9 +18,13 @@
             %th Deadlift
             %th Bench Press
             %th Press
-          %tr{ng_repeat: "log in logs"}
+          %tr{ng_repeat: "log in logs | orderBy: 'created_at':true"}
             %td {{ log.created_at | date:'MM/dd/yyyy' }}
-            %td{ng_repeat: "exercise in log.exercises"} {{ exercise.weight }}
+            %td {{ exerciseWeightFromLog(log, "Squat") }}
+            %td {{ exerciseWeightFromLog(log, "Deadlift") }}
+            %td {{ exerciseWeightFromLog(log, "Bench Press") }}
+            %td {{ exerciseWeightFromLog(log, "Press") }}
+
 - else
   = link_to "Sign In", new_user_session_path
   = link_to "Sign Up", new_user_registration_path

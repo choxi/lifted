@@ -17,21 +17,22 @@ ActiveRecord::Schema.define(version: 20131226025412) do
   enable_extension "plpgsql"
 
   create_table "exercise_logs", force: true do |t|
-    t.integer  "exercise_id"
-    t.integer  "log_id"
-    t.integer  "weight"
+    t.integer  "exercise_id",             null: false
+    t.integer  "log_id",                  null: false
+    t.integer  "weight",      default: 0, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "exercises", force: true do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "logs", force: true do |t|
-    t.integer  "user_id"
+    t.integer  "user_id",    null: false
+    t.datetime "logged_at",  null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
