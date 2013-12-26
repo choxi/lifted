@@ -13,12 +13,12 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
   $scope.refreshChart = =>
     $http.get("/api/v1/logs.json").success (response) =>
       $scope.logs = $.map response, (log) ->
-        [new Date(log.created_at), log.exercises[0].weight]
+        [[$scope.timestampToUTC(log.created_at), log.exercises[0].weight]]
 
       $scope.chartConfig =
         options:
           chart:
-            type: "line"
+            type: "spline"
         xAxis:
           type: 'datetime',
           dateTimeLabelFormats:
@@ -31,3 +31,11 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
 
   $scope.createLog = =>
     $http.post("/api/v1/logs.json", log: $scope.newLog).success (response) =>
+
+  $scope.timestampToUTC = (timestamp) ->
+    date = new Date(timestamp)
+    Date.UTC(date.getYear(), date.getMonth(), date.getDate())
+
+  $scope.refreshChart()
+
+  $scope
