@@ -1,3 +1,11 @@
-%h1 lifted
-= link_to 'Sign Up', new_user_registration_path
-= link_to 'Sign In', new_user_session_path
+- if user_signed_in?
+  .landing-show{ng_controller: "LogsController"}
+    %form{ng_submit: "createLog()"}
+      %p{ng_repeat: "exercise in newLog.exercises"}
+        %label {{ exercise.name }}
+        %input{type: "number", ng_model: "exercise.weight"}
+      %p
+        %input.btn.btn-primary{type: "submit"}
+- else
+  = link_to "Sign In", new_user_session_path
+  = link_to "Sign Up", new_user_registration_path
