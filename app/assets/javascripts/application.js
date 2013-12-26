@@ -10,6 +10,9 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
 //= require angular
 //= require angular-resource
+//= require highcharts
+//= require highcharts-ng
 //= require_tree ./angular

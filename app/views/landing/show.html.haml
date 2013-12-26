@@ -1,11 +1,14 @@
 - if user_signed_in?
   .landing-show{ng_controller: "LogsController"}
+    %highchart{id: "chart1", config: "chartConfig"}
     %form{ng_submit: "createLog()"}
       %p{ng_repeat: "exercise in newLog.exercises"}
         %label {{ exercise.name }}
         %input{type: "number", ng_model: "exercise.weight"}
       %p
         %input.btn.btn-primary{type: "submit"}
+    %p
+      %a{ng_click: "refreshChart()"} Refresh Chart
 - else
   = link_to "Sign In", new_user_session_path
   = link_to "Sign Up", new_user_registration_path

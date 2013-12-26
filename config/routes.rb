@@ -4,7 +4,7 @@ Lifted::Application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :logs, only: :create
+      resources :logs, only: [:index, :create]
     end
   end
 end
