@@ -1,5 +1,5 @@
 # ##################################################################
-angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsController", ($scope, $http) ->
+angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsController", ["$scope", "$http", ($scope, $http) ->
   window.scope = $scope
 
   $scope.newLog = {}
@@ -62,3 +62,4 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
   $scope.refreshChart()
 
   $scope
+]
