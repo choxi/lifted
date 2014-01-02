@@ -9,12 +9,7 @@ class Api::V1::LogsController < ApiController
   #     ]
   #   }
   def create
-    log = current_user.logs.create!(logged_at: Time.now)
-    params[:log][:exercises].each do |exercise_params|
-      exercise = Exercise.find_or_create_by_name!(exercise_params[:name])
-      log.exercise_logs.create!(weight: exercise_params[:weight], exercise: exercise)
-    end
-
+    log = current_user.create_log!(params[:log])
     respond_with log, location: nil
   end
 

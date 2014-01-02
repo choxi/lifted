@@ -9,4 +9,15 @@ class Log < ActiveRecord::Base
       exercises: exercise_logs
     }
   end
+
+  def workout
+    exercise_attributes = exercise_logs.map {|e| {name: e.exercise.name, weight: e.weight}}
+    @workout ||= Workout.new(exercise_attributes)
+  end
+
+  def next_workout
+    exercise_names = exercises.map { |hash| hash[:name] }
+
+    if exercise_names.include?
+  end
 end

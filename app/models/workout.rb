@@ -5,7 +5,8 @@ class Workout
   attr_reader :exercises
 
   def self.starter_workout
-    Workout.new Exercise.where("name in (?)", A_DAY_EXERCISES)
+    exercises = Exercise.where("name in (?)", A_DAY_EXERCISES)
+    Workout.new exercises.map {|e| {name: e.name, weight: 25 } }
   end
 
   def initialize(exercises)
