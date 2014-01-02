@@ -5,4 +5,13 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :logs
+
+  def next_workout
+    if logs.count == 0
+      Workout.starter_workout
+    else
+      last_workout = Workout.new(logs.last)
+      next_workout = last_workout.next_workout
+    end
+  end
 end

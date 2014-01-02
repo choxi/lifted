@@ -4,3 +4,7 @@
 require File.expand_path('../config/application', __FILE__)
 
 Lifted::Application.load_tasks
+
+task :send_workout_notification => :environment do
+  
+end

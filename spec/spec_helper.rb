@@ -22,6 +22,13 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
 
+  config.before(:each) do
+    # Seed the Database
+    [:squat, :bench_press, :deadlift, :press].each do |exercise_name|
+      FactoryGirl.create(exercise_name)
+    end
+  end
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
