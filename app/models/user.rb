@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
     log = logs.create!(logged_at: Time.now)
 
     log_params[:exercises].each do |exercise_params|
+      next if exercise_params[:weight] == 0
+    
       exercise = Exercise.find_or_create_by!(name: exercise_params[:name])
       log.exercise_logs.create!(weight: exercise_params[:weight], exercise: exercise)
     end

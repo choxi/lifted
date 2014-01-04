@@ -14,6 +14,17 @@ describe User do
 
       log.exercises.map(&:name).should =~ ["Squat", "Bench Press"]
     end
+
+    it "skips the exercise log if the weight is 0" do
+      log = user.create_log!({
+        exercises: [
+          { name: "Squat", weight: 25 },
+          { name: "Bench Press", weight: 0 }
+        ]
+      })
+
+      log.exercises.map(&:name).should =~ ["Squat"]
+    end
   end
 
   describe "#last_weight_for" do
