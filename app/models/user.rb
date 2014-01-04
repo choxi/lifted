@@ -17,11 +17,12 @@ class User < ActiveRecord::Base
     log
   end
 
-  def next_workout
-    if logs.count == 0
-      Workout.starter_workout
-    else
-      logs.last.workout
-    end
+  def last_weight_for(exercise_name)
+    exercise = Exercise.find_by(name: exercise_name)
+    last_log = ExerciseLog.joins(:log)
+                          .where("logs.user_id = ? AND exercise_logs.exercise_id = ?", id, exercise.id)
+                          .order("created_at DESC").first
+
+    last_log.try(:weight) || 0
   end
 end

@@ -4,8 +4,17 @@ FactoryGirl.define do
 
     factory :workout_a do
       after(:create) do |log|
-        [:squat, :bench_press, :deadlift].each do |name|
-          exercise = FactoryGirl.create(name)
+        ["Squat", "Bench Press", "Deadlift"].each do |name|
+          exercise = Exercise.find_or_create_by(name: name)
+          log.exercise_logs.create!(exercise: exercise, weight: rand(25))
+        end
+      end
+    end
+
+    factory :workout_b do
+      after(:create) do |log|
+        ["Squat", "Press", "Deadlift"].each do |name|
+          exercise = Exercise.find_by(name: name)
           log.exercise_logs.create!(exercise: exercise, weight: rand(25))
         end
       end

@@ -16,16 +16,13 @@ describe User do
     end
   end
 
-  describe "#next_workout" do
-    it "returns a starting workout if the user has no previous workouts" do
-      user.next_workout.exercises.map(&:name).should =~ Workout::A_DAY_EXERCISES 
-    end
+  describe "#last_weight_for" do
+    it "returns the most recent weight done for that exercise" do
+      log_a = FactoryGirl.create(:workout_a, user: user)
+      log_b = FactoryGirl.create(:workout_b, user: user)
 
-    it "returns alternating workout types" do
-      log = FactoryGirl.create(:workout_a, user_id: user.id)
-
-      user.next_workout.exercises.should_not include("Bench Press")
-      user.next_workout.exercises.should include("Press")
+      user.last_weight_for("Squat").should        == log_b.summary["Squat"]
+      user.last_weight_for("Bench Press").should  == log_a.summary["Bench Press"]
     end
   end
 end
