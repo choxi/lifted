@@ -7,4 +7,8 @@ Lifted::Application.routes.draw do
       resources :logs, only: [:index, :create]
     end
   end
+
+  if Rails.env.development?
+    mount NotificationsPreview => "notifications"
+  end
 end

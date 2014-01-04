@@ -1,0 +1,5 @@
+%ul
+  - @user.last_log.next_log.each do |key, value|
+    %li
+      %b== #{key}:
+      = value

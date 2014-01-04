@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
     log
   end
 
+  def last_log
+    logs.order("created_at DESC").first
+  end
+
   def last_weight_for(exercise_name)
     exercise = Exercise.find_by(name: exercise_name)
     last_log = ExerciseLog.joins(:log)

@@ -17,6 +17,7 @@ gem "factory_girl_rails", group: [:development, :test]
 gem "debugger", group: [:development, :test]
 gem "flatui-rails", git: "https://github.com/choxi/flatui-rails.git"
 gem "pg"
+gem "mail_view"
 
 group :doc do
   gem "sdoc", require: false
