@@ -11,20 +11,21 @@ class Log < ActiveRecord::Base
   end
 
   def next_log
-    exercise_names = exercises.map { |hash| hash[:name] }
+    @next_log = {}
 
-    @next_log ||= exercise_logs.map do |exercise_log|
-      exercise      = exercise_log.exercise
-      previous_log  = user.logs.where("created_at < ?", created_at).first
+    exercise_logs.each do |exercise_log|
+      exercise = exercise_log.exercise
 
       if exercise.name == "Bench Press"
-        { "Press" => user.last_weight_for("Press") + 5 }
+        @next_log["Press"] = user.last_weight_for("Press") + 5
       elsif exercise.name == "Press"
-        { "Bench Press" => user.last_weight_for("Bench Press") + 5 }
+        @next_log["Bench Press"] = user.last_weight_for("Bench Press") + 5 
       else
-        { exercise.name => user.last_weight_for(exercise.name) + 5 }
+        @next_log[exercise.name] = user.last_weight_for(exercise.name) + 5
       end
     end
+
+    @next_log
   end
 
   def summary
