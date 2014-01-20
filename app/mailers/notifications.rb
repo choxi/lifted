@@ -1,5 +1,6 @@
 class Notifications < ActionMailer::Base
   default from: "Lifted <no-reply@lifted.herokuapp.com>"
+  helper ApplicationHelper
 
   def next_workout(user)
     @user = user

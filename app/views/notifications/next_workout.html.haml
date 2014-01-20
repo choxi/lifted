@@ -1,5 +1,11 @@
-%ul
-  - @user.last_log.next_log.each do |key, value|
-    %li
-      %b== #{key}:
-      = value
+%table{width: "100%", style: "text-align: center"}
+  %tr
+    %th Name
+    %th Weight
+    %th Plates
+
+  - @user.last_log.next_log.each do |name, weight|
+    %tr
+      %td= name
+      %td= weight
+      %td= weight_to_plates(weight)
