@@ -9,3 +9,6 @@
       %td= name
       %td= weight
       %td= weight_to_plates(weight)
+
+%center{style: "margin-top: 60px"}
+  = link_to "Submit Log", user_auth_token_path(@user.authentication_token)
