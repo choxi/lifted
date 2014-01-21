@@ -1,5 +1,6 @@
 Lifted::Application.routes.draw do
-  root to: 'landing#show'
+  root to: "logs#index"
+  get "/users/:authentication_token/logs/new", to: "logs#new", as: :user_auth_token
   devise_for :users
 
   namespace :api do

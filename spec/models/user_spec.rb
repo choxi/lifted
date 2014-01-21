@@ -3,6 +3,12 @@ require 'spec_helper'
 describe User do
   let(:user) { FactoryGirl.create(:user) }
 
+  describe "after_create hooks" do
+    it "generates an authentication token" do
+      user.authentication_token.should_not be_blank
+    end
+  end
+
   describe "#create_log!" do
     it "creates exercise logs for each exercise" do
       log = user.create_log!({

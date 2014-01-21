@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :logs
+  before_create lambda {|user| user.authentication_token = SecureRandom.hex }
 
   def create_log!(log_params)
     log = logs.create!(logged_at: Time.now)
