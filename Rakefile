@@ -10,7 +10,7 @@ task :send_workout_notification => :environment do
 
   if today.monday? || today.wednesday? || today.friday? || ENV["FORCE"]
     User.all.each do |user|
-      Notifications.next_workout(user).deliver
+      Notifications.next_workout(user).deliver!
     end
   end
 end
