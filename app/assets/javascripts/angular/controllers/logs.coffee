@@ -2,14 +2,6 @@
 angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsController", ["$scope", "$http", ($scope, $http) ->
   window.scope = $scope
 
-  $scope.newLog = {}
-  $scope.newLog.exercises = [
-    {name: "Squat", weight: 0},
-    {name: "Press", weight: 0},
-    {name: "Bench Press", weight: 0},
-    {name: "Deadlift", weight: 0},
-  ]
-
   $scope.refreshChart = =>
     $http.get("/api/v1/logs.json").success (response) =>
       $scope.logs = response
@@ -42,6 +34,23 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
     else
       "-"
 
+  $scope.getWeightFromParameter = (name) ->
+    if weight = $scope.getParameterByName(name)
+      parseInt(weight)
+    else
+      0
+
+  $scope.getParameterByName = (variable) ->
+    query = window.location.search.substring(1)
+    vars = query.split("&")
+    i = 0
+
+    while i < vars.length
+      pair = vars[i].split("=")
+      return pair[1]  if pair[0] is variable
+      i++
+    false
+
   $scope.mapLogsToDataSeries = (logs) =>
     data = {}
 
@@ -58,6 +67,14 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
 
     $.map data, (data, name) ->
       {name: name, data: data}
+
+  $scope.newLog = {}
+  $scope.newLog.exercises = [
+    {name: "Squat",       weight: $scope.getWeightFromParameter("Squat")},
+    {name: "Press",       weight: $scope.getWeightFromParameter("Press")},
+    {name: "Bench Press", weight: $scope.getWeightFromParameter("Bench+Press")},
+    {name: "Deadlift",    weight: $scope.getWeightFromParameter("Deadlift")},
+  ]
 
   $scope.refreshChart()
 
