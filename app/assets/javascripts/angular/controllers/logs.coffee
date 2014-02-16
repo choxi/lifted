@@ -8,7 +8,7 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
       $scope.chartConfig =
         options:
           chart:
-            type: "area"
+            type: "column"
         xAxis:
           type: 'datetime',
           dateTimeLabelFormats:
@@ -18,6 +18,7 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
         series: $scope.mapLogsToDataSeries($scope.logs)
         title:
           text: "Weight"
+        loading: false
 
   $scope.createLog = =>
     $http.post("/api/v1/logs.json", log: $scope.newLog).success (response) =>
