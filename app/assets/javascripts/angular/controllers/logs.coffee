@@ -3,8 +3,9 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
   window.scope = $scope
 
   $scope.refreshChart = =>
-    $http.get("/api/v1/logs.json").success (response) =>
+    $http.get("/api/v1/logs.json").success (response) ->
       $scope.logs = response
+
       $scope.chartConfig =
         options:
           chart:
@@ -20,8 +21,17 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
           text: "Weight"
         loading: false
 
-  $scope.createLog = =>
+      $scope.newLog = {}
+      $scope.newLog.exercises = [
+        {name: "Squat",       weight: $scope.getWeightFromParameter("Squat")},
+        {name: "Press",       weight: $scope.getWeightFromParameter("Press")},
+        {name: "Bench Press", weight: $scope.getWeightFromParameter("Bench+Press")},
+        {name: "Deadlift",    weight: $scope.getWeightFromParameter("Deadlift")},
+      ]
+
+  $scope.createLog = ->
     $http.post("/api/v1/logs.json", log: $scope.newLog).success (response) =>
+      $scope.refreshChart() # no idea why this needs to be here twice for the refresh to work
       $scope.refreshChart()
 
   $scope.timestampToUTC = (timestamp) =>
@@ -68,14 +78,6 @@ angular.module("Lifted", ["ngResource", "highcharts-ng"]).controller "LogsContro
 
     $.map data, (data, name) ->
       {name: name, data: data}
-
-  $scope.newLog = {}
-  $scope.newLog.exercises = [
-    {name: "Squat",       weight: $scope.getWeightFromParameter("Squat")},
-    {name: "Press",       weight: $scope.getWeightFromParameter("Press")},
-    {name: "Bench Press", weight: $scope.getWeightFromParameter("Bench+Press")},
-    {name: "Deadlift",    weight: $scope.getWeightFromParameter("Deadlift")},
-  ]
 
   $scope.refreshChart()
 
