@@ -4,11 +4,11 @@
     %th Weight
     %th Plates
 
-  - @user.last_log.next_log.each do |name, weight|
+  - @user.next_log.each do |name, weight|
     %tr
       %td= name
       %td= weight
       %td= weight_to_plates(weight)
 
 %center{style: "margin-top: 60px"}
-  = link_to "Submit Log", user_log_url(@user.authentication_token, @user.last_log.next_log)
+  = link_to "Submit Log", user_log_url(@user.authentication_token, @user.next_log)
